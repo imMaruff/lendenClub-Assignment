@@ -1,70 +1,169 @@
-# Getting Started with Create React App
+This project is a Secure User Profile & Access Control System developed as part of the Full Stack evaluation.
+It demonstrates secure authentication, encrypted data storage, and role-based protected access using modern backend and frontend technologies.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The system allows users to:
 
-## Available Scripts
+Register securely with sensitive identity information
 
-In the project directory, you can run:
+Authenticate using JWT-based login
 
-### `npm start`
+Access their profile through a protected dashboard
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Ensure sensitive data is encrypted at rest and decrypted only when required
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#Technology Stack
+Backend
 
-### `npm test`
+Java
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Spring Boot
 
-### `npm run build`
+Spring Security
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+JWT (JSON Web Token)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+MongoDB
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+BCrypt (Password Hashing)
 
-### `npm run eject`
+AES Encryption (Sensitive Data)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Frontend
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+React.js
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Axios
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+React Router
 
-## Learn More
+#Key Features
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+User Registration & Login
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+JWT-based Stateless Authentication
 
-### Code Splitting
+Encrypted Aadhaar/ID storage at database level
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Secure Profile API (/profile/me)
 
-### Analyzing the Bundle Size
+Protected frontend routes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+CORS-enabled backend for frontend communication
 
-### Making a Progressive Web App
+Full Stack integration (React + Spring Boot)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+#Application Flow
 
-### Advanced Configuration
+User registers with username, email, password, and Aadhaar
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Password is hashed using BCrypt
 
-### Deployment
+Aadhaar is encrypted using AES before database storage
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+User logs in using valid credentials
 
-### `npm run build` fails to minify
+Backend issues a JWT token
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+JWT is sent in Authorization header for protected requests
+
+Profile data is fetched securely and Aadhaar is decrypted only for response
+
+#API Endpoints
+Register User
+POST /auth/register
+
+
+Request Body:
+
+{
+  "username": "user1",
+  "email": "user1@gmail.com",
+  "password": "password123",
+  "aadhaar": "123456789012"
+}
+
+Login User
+POST /auth/login
+
+
+Request Body:
+
+{
+  "username": "user1",
+  "password": "password123"
+}
+
+
+Response:
+
+{
+  "token": "<JWT_TOKEN>"
+}
+
+Fetch User Profile (Protected)
+GET /profile/me
+Authorization: Bearer <JWT_TOKEN>
+
+
+Response:
+
+{
+  "username": "user1",
+  "email": "user1@gmail.com",
+  "aadhaar": "123456789012"
+}
+
+ Database Details
+
+Database: MongoDB
+Collection: users
+
+Field Name	Description
+_id	Unique identifier
+username	Username
+email	Email address
+password	BCrypt hashed password
+aadhaarEncrypted	AES encrypted Aadhaar/ID
+role	User role
+
+Sensitive fields are encrypted before storage and never stored in plaintext.
+
+#Security Design
+
+Passwords are stored using BCrypt hashing
+
+Aadhaar/ID numbers are encrypted using AES before database persistence
+
+JWT tokens are used for stateless authentication
+
+User identity is derived from SecurityContext, not request parameters
+
+Protected APIs require valid JWT tokens
+
+CORS configuration allows frontend access securely
+
+#AI Tool Usage Log
+AI Tools Used
+
+ChatGPT
+
+AI-Assisted Areas
+
+JWT authentication structure
+
+AES encryption/decryption utility
+
+Spring Security configuration
+
+CORS configuration guidance
+
+React component structure
+
+Debugging configuration and integration issues
+
+Effectiveness Score
+
+4 / 5
+
+Justification:
+AI tools significantly reduced development time by providing secure boilerplate code and debugging guidance. Manual effort was still required for integration, testing, and configuration validation.
